@@ -2,9 +2,28 @@
 #Disclaimer, this program was created in part by following a tutorial posted by pymike00 on youtube, credit for the basic outline of this program goes to him and his PyText Editor!
 import tkinter as tk
 from tkinter import filedialog
+
+#This set of functions is concerned with creating the widget on the side of the window that displays the line numbers of text being
+#created in that program.
+
+#This fuction counts the number of lines of text in the editorand returns that value:
+
+def LineCount():
+    numbers = ""
+    rows, col = textarea.index("end").split(".")
+    for lines in (1, int(rows)):
+        numbers += str(i) + "/n"
+    return numbers
+#This function ierts them into the line number widget on the side of the text editor
+def updateLineWidget(event=None):
+    lineNumberForLine = LineCount()
+    lineWidget.config(state="normal")
+    lineWidget.delete(1.0.END)
+    lineWidget.insert(1.0,lineNumberForLine)
+
 class Menubar:
     def __init__(self,parent):
-        font_specs = ("Monoid", 8)
+        font_specs = ("Monoid Retina", 8)
         menubar = tk.Menu(parent.master, font=font_specs)
         parent.master.config(menu=menubar)
         #This section of code creates all the options for our first menubar:
@@ -18,23 +37,24 @@ class Menubar:
 
         menubar.add_cascade(label="File", menu=file_dropdown)
         menubar.add_cascade(label="About", command=parent.about_window)
-#This craetes the text box and our window:
+#This creates the text box and our window:
 class PyText:
     def __init__(self, master):
         #This section of code creates our window and sizes it at startup:
         master.title("Untitled - Quill")
         master.geometry("1200x700") 
-        font_specs = ("Monoid", 8)
+        font_specs = ("Monoid  Retina", 8)
         
         self.master = master
         self.filename = None
-
-        self.textarea = tk.Text(master,bg="#272727",fg="#ffffff", font=font_specs)
+        self.textarea = tk.Text(master,bg="#272727",fg="#ffffff", font=font_specs,relief="flat")
+        self.lineWidget = tk.Text(master,width=2,padx=0,state="d",takefocus=0,bg="#202020")
         self.scroll = tk.Scrollbar(master,command=self.textarea.yview)
         self.textarea.configure(yscrollcommand=self.scroll.set)
+       
+        self.lineWidget.pack(side=tk.LEFT, fill=tk.Y)
         self.textarea.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.scroll.pack(side=tk.RIGHT, fill=tk.Y)
-
         self.menubar = Menubar(self)
     
     def set_window_title(self, name=None):
@@ -42,8 +62,6 @@ class PyText:
             self.master.title(name + " - Quill")
         else:
             self.master.title("Untitled - Quill")
-
-
     def clear_window(self):
         self.textarea.delete(1.0, tk.END)
         self.filename = None
