@@ -1,11 +1,11 @@
 # Quill
 Quill is an open source GUI text editor written in Python.
 
-Change Log:
-# Version 0.2-Alpha:
+# Change Log:
+### Version 0.2-Alpha:
 Changes:
 1. Added Line Numbers
-# Version 0.1-Pre-Alpha:
+### Version 0.1-Pre-Alpha:
 Orginal Project Creation: 7/8/2020
 Inital upload: 9/8/2020
 
